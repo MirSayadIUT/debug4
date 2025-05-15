@@ -8,8 +8,15 @@ const nextConfig: NextConfig = {
         hostname: 'res.cloudinary.com',
         pathname: '/**',
       },
-      // Add any other image domains you need
     ],
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: process.env.NEXT_PUBLIC_API_URL + '/api/:path*',
+      },
+    ];
   },
 };
 

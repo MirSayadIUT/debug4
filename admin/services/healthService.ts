@@ -117,7 +117,7 @@ export async function getHealthData(): Promise<SystemHealth> {
 
 export async function getMetricsData(): Promise<MetricsData> {
   try {
-    const { data } = await api.get('/api/v1/metrics/latest');
+    const { data } = await api.get('/v1/metrics/latest');
     return data.metrics; // Adjust to extract data.metrics based on your controller response
   } catch (error: any) {
     console.error('Failed to fetch latest metrics:', error);
@@ -131,7 +131,7 @@ export async function getMetricsHistory(
   options: MetricsHistoryOptions = {},
 ): Promise<MetricsHistoryData[]> {
   try {
-    const { data } = await api.get('/api/v1/metrics/history', {
+    const { data } = await api.get('/v1/metrics/history', {
       params: options,
     });
     return data.metrics; // Adjust to extract data.metrics based on your controller response
@@ -146,7 +146,7 @@ export async function getMetricsHistory(
 export async function getPrometheusMetrics(): Promise<string> {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/metrics`,
+      `/api/v1/metrics`,
       {
         method: 'GET',
         credentials: 'include',
@@ -170,7 +170,7 @@ export async function cleanupOldMetrics(days: number): Promise<void> {
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - days);
 
-    await api.delete('/api/v1/metrics/cleanup', {
+    await api.delete('/v1/metrics/cleanup', {
       params: { cutoffDate: cutoffDate.toISOString() },
     });
   } catch (error: any) {
