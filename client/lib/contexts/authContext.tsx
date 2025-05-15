@@ -28,7 +28,7 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        const response = await fetch("/api/v1/auth/me", {
+        const response = await fetch(`/api/v1/auth/me`, {
           credentials: "include", // Important for sending cookies
         });
 
@@ -50,7 +50,7 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await fetch("/api/v1/auth/login", {
+      const response = await fetch(`/api/v1/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -76,7 +76,7 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
 
   const logout = async () => {
     try {
-      const response = await fetch("/api/v1/auth/logout", {
+      const response = await fetch(`/api/v1/auth/logout`, {
         method: "POST",
         credentials: "include",
       });
