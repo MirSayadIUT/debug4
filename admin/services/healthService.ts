@@ -146,7 +146,7 @@ export async function getMetricsHistory(
 export async function getPrometheusMetrics(): Promise<string> {
   try {
     const response = await fetch(
-      `/api/v1/metrics`,
+      `/metrics`,
       {
         method: 'GET',
         credentials: 'include',

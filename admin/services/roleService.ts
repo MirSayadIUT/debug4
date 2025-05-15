@@ -9,7 +9,6 @@ interface RoleData {
 
 export async function getAllRole() {
   try {
-    // Try the API endpoint with "roles" (plural)
     const res = await api.get('/v1/roles/global');
     return res.data;
   } catch (error) {
