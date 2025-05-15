@@ -1,4 +1,5 @@
 import api from '@/lib/axios';
+import apiHealth from '@/lib/axios';
 
 // Types that mirror backend structures
 export interface SystemHealth {
@@ -105,7 +106,7 @@ export interface MetricsHistoryOptions {
 // Service functions - Fixed to match backend routes
 export async function getHealthData(): Promise<SystemHealth> {
   try {
-    const { data } = await api.get('/health');
+    const { data } = await apiHealth.get('/health');
     return data;
   } catch (error: any) {
     console.error('Failed to fetch health data:', error);
