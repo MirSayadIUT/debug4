@@ -9,8 +9,6 @@ export async function apiRequest<T>(
   options: RequestInit = {},
 ): Promise<ApiResponse<T>> {
   try {
-    // Use relative URL to leverage the Next.js proxy
-    // Make sure endpoint starts with /api
     const url = endpoint.startsWith('/api') 
       ? endpoint 
       : `/api${endpoint}`;
@@ -21,6 +19,7 @@ export async function apiRequest<T>(
         'Content-Type': 'application/json',
       },
       credentials: 'include',
+      mode: 'cors',
     };
 
     const finalOptions = {
@@ -31,11 +30,6 @@ export async function apiRequest<T>(
         ...(options.headers || {}),
       },
     };
-
-    // If sending FormData, delete the Content-Type header
-    if (options.body instanceof FormData) {
-      delete finalOptions.headers['Content-Type'];
-    }
 
     console.log('Request URL:', url); // Debug log
     console.log('Request Method:', finalOptions.method); // Debug log
