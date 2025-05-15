@@ -1,4 +1,4 @@
-import api, {apiHealth} from '@/lib/axios';
+import api from '@/lib/axios';
 
 // Types that mirror backend structures
 export interface SystemHealth {
@@ -105,12 +105,29 @@ export interface MetricsHistoryOptions {
 // Service functions - Fixed to match backend routes
 export async function getHealthData(): Promise<SystemHealth> {
   try {
-    const { data } = await apiHealth.get('/health');
+    // Use direct fetch instead of axios for the /health endpoint
+    const response = await fetch('/health', {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Accept': 'application/json',
+        // Include auth token if needed for protected routes
+        ...(typeof window !== 'undefined' && localStorage.getItem('admin_token') 
+          ? { 'Authorization': `Bearer ${localStorage.getItem('admin_token')}` }
+          : {})
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Health check failed with status: ${response.status}`);
+    }
+
+    const data = await response.json();
     return data;
   } catch (error: any) {
     console.error('Failed to fetch health data:', error);
     throw new Error(
-      error.response?.data?.message ?? 'Failed to fetch health data',
+      error.message ?? 'Failed to fetch health data'
     );
   }
 }
@@ -146,10 +163,16 @@ export async function getMetricsHistory(
 export async function getPrometheusMetrics(): Promise<string> {
   try {
     const response = await fetch(
-      `/metrics`,
+      '/metrics',
       {
         method: 'GET',
         credentials: 'include',
+        headers: {
+          // Include auth token if needed for protected routes
+          ...(typeof window !== 'undefined' && localStorage.getItem('admin_token') 
+            ? { 'Authorization': `Bearer ${localStorage.getItem('admin_token')}` }
+            : {})
+        }
       },
     );
 

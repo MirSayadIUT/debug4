@@ -10,15 +10,6 @@ const api = axios.create({
   },
 });
 
-const apiHealth = axios.create({
-  baseURL: "", // No prefix
-  withCredentials: true,
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-});
-
 if (typeof window !== "undefined") {
   // Only run in the browser
   api.interceptors.request.use((config) => {
@@ -42,5 +33,3 @@ if (typeof window !== "undefined") {
 }
 
 export default api;
-
-export {apiHealth};
