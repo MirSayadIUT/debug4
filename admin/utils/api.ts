@@ -9,9 +9,7 @@ export async function apiRequest<T>(
   options: RequestInit = {},
 ): Promise<ApiResponse<T>> {
   try {
-    const url = endpoint.startsWith('/api') 
-      ? endpoint 
-      : `/api${endpoint}`;
+    const url =`/api${endpoint}`;
 
     // Force POST requests to include proper headers and body handling
     const defaultOptions: RequestInit = {
