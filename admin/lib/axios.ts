@@ -1,28 +1,28 @@
 // lib/axios.ts
-import axios from 'axios';
+import axios from "axios";
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: "/api",
   withCredentials: true,
   headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
+    Accept: "application/json",
+    "Content-Type": "application/json",
   },
 });
 
 const apiHealth = axios.create({
-  baseURL: '', // No prefix
+  baseURL: "", // No prefix
   withCredentials: true,
   headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
+    Accept: "application/json",
+    "Content-Type": "application/json",
   },
 });
 
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   // Only run in the browser
-  api.interceptors.request.use(config => {
-    const token = localStorage.getItem('admin_token');
+  api.interceptors.request.use((config) => {
+    const token = localStorage.getItem("admin_token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -30,19 +30,17 @@ if (typeof window !== 'undefined') {
   });
 
   api.interceptors.response.use(
-    response => response,
-    error => {
+    (response) => response,
+    (error) => {
       if (error.response?.status === 401) {
-        window.location.href = '/';
+        window.location.href = "/";
       }
       // Convert the error to a proper Error object before rejecting
-      return Promise.reject(
-        new Error(
-           error.message ?? 'An error occurred',
-        ),
-      );
-    },
+      return Promise.reject(new Error(error.message ?? "An error occurred"));
+    }
   );
 }
 
-export default api,apiHealth;
+export default api;
+
+export {apiHealth};

@@ -1,5 +1,4 @@
-import api from '@/lib/axios';
-import apiHealth from '@/lib/axios';
+import api, {apiHealth} from '@/lib/axios';
 
 // Types that mirror backend structures
 export interface SystemHealth {
